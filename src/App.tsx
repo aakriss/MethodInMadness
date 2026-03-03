@@ -1,6 +1,39 @@
 import { useState } from 'react'
 import './App.css'
 
+/* ── Types ── */
+interface Product {
+  id: string
+  name: string
+  price: number
+  category: string
+  description: string
+  sizes: string[]
+  color: string
+}
+
+interface CartItem {
+  product: Product
+  size: string
+  qty: number
+}
+
+type Page = 'home' | 'shop' | 'product' | 'about' | 'contact'
+
+/* ── Placeholder Products ── */
+const products: Product[] = [
+  { id: '1', name: 'Classic Straight Leg', price: 128, category: 'Pants', description: 'Clean lines, tailored fit. A wardrobe essential built for everyday wear with premium cotton twill.', sizes: ['S', 'M', 'L', 'XL'], color: '#2c2c2c' },
+  { id: '2', name: 'Raw Selvedge Denim', price: 185, category: 'Denim', description: 'Japanese selvedge denim, raw unwashed. Develops unique fading patterns over time.', sizes: ['S', 'M', 'L', 'XL'], color: '#1a2a3a' },
+  { id: '3', name: 'Midnight Jogger', price: 95, category: 'Joggers', description: 'Technical fabric meets street style. Tapered fit with ribbed cuffs and hidden zip pockets.', sizes: ['S', 'M', 'L', 'XL'], color: '#1a1a2e' },
+  { id: '4', name: 'Washed Black Slim', price: 145, category: 'Denim', description: 'Washed black stretch denim with a slim silhouette. Comfortable all-day wear.', sizes: ['S', 'M', 'L', 'XL'], color: '#222222' },
+  { id: '5', name: 'Cargo Wide Leg', price: 158, category: 'Pants', description: 'Oversized cargo pockets on a wide-leg canvas pant. Relaxed, utilitarian, bold.', sizes: ['S', 'M', 'L', 'XL'], color: '#3a3a2e' },
+  { id: '6', name: 'French Terry Sweatpant', price: 88, category: 'Joggers', description: 'Heavyweight french terry with a relaxed drape. Elevated loungewear.', sizes: ['S', 'M', 'L', 'XL'], color: '#2e2e2e' },
+  { id: '7', name: 'Tailored Trouser Short', price: 78, category: 'Shorts', description: '7-inch inseam trouser short in structured cotton. Smart-casual summer essential.', sizes: ['S', 'M', 'L', 'XL'], color: '#3a3028' },
+  { id: '8', name: 'Indigo Wash Straight', price: 165, category: 'Denim', description: 'Deep indigo wash on 14oz denim. Classic five-pocket construction.', sizes: ['S', 'M', 'L', 'XL'], color: '#182848' },
+  { id: '9', name: 'Ripstop Cargo Short', price: 72, category: 'Shorts', description: 'Durable ripstop nylon cargo short. Lightweight, quick-dry, ready for anything.', sizes: ['S', 'M', 'L', 'XL'], color: '#2a3a2a' },
+  { id: '10', name: 'Pleated Wide Leg', price: 168, category: 'Pants', description: 'Double-pleated wide leg in Japanese cotton. Architectural silhouette.', sizes: ['S', 'M', 'L', 'XL'], color: '#1e1e1e' },
+]
+
 const categories = [
   { label: 'Pants', angle: -120 },
   { label: 'Denim', angle: -60 },
@@ -9,52 +42,295 @@ const categories = [
   { label: 'New Arrivals', angle: 120 },
 ]
 
+const filterCategories = ['All', 'Pants', 'Denim', 'Joggers', 'Shorts']
+
 function App() {
-  const [hovered, setHovered] = useState(false)
+  const [page, setPage] = useState<Page>('home')
+  const [shopHovered, setShopHovered] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  const [selectedSize, setSelectedSize] = useState('')
+  const [activeFilter, setActiveFilter] = useState('All')
+  const [cart, setCart] = useState<CartItem[]>([])
+  const [cartOpen, setCartOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const cartCount = cart.reduce((sum, item) => sum + item.qty, 0)
+  const cartTotal = cart.reduce((sum, item) => sum + item.product.price * item.qty, 0)
+
+  const filteredProducts = activeFilter === 'All'
+    ? products
+    : products.filter(p => p.category === activeFilter)
+
+  function navigate(p: Page, filter?: string) {
+    setPage(p)
+    if (filter) setActiveFilter(filter)
+    setMenuOpen(false)
+    window.scrollTo(0, 0)
+  }
+
+  function viewProduct(product: Product) {
+    setSelectedProduct(product)
+    setSelectedSize('')
+    setPage('product')
+    window.scrollTo(0, 0)
+  }
+
+  function addToCart() {
+    if (!selectedProduct || !selectedSize) return
+    setCart(prev => {
+      const existing = prev.find(
+        item => item.product.id === selectedProduct.id && item.size === selectedSize
+      )
+      if (existing) {
+        return prev.map(item =>
+          item.product.id === selectedProduct.id && item.size === selectedSize
+            ? { ...item, qty: item.qty + 1 }
+            : item
+        )
+      }
+      return [...prev, { product: selectedProduct, size: selectedSize, qty: 1 }]
+    })
+    setCartOpen(true)
+  }
+
+  function removeFromCart(productId: string, size: string) {
+    setCart(prev => prev.filter(item => !(item.product.id === productId && item.size === size)))
+  }
 
   return (
     <div className="app">
+      {/* ── Header ── */}
       <header className="header">
-        <div className="brand">METHOD IN MADNESS</div>
-        <nav className="nav">
-          <a href="#about">About</a>
-          <a href="#contact">Contact</a>
-          <button className="cart-btn" aria-label="Cart">
+        <div className="brand" onClick={() => navigate('home')} role="button" tabIndex={0}>
+          METHOD IN MADNESS
+        </div>
+
+        <button
+          className={`hamburger ${menuOpen ? 'active' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span /><span /><span />
+        </button>
+
+        <nav className={`nav ${menuOpen ? 'open' : ''}`}>
+          <a onClick={() => navigate('shop')}>Shop</a>
+          <a onClick={() => navigate('about')}>About</a>
+          <a onClick={() => navigate('contact')}>Contact</a>
+          <button className="cart-btn" onClick={() => setCartOpen(true)} aria-label="Cart">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
               <line x1="3" y1="6" x2="21" y2="6" />
               <path d="M16 10a4 4 0 01-8 0" />
             </svg>
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </button>
         </nav>
       </header>
 
-      <main className="hero">
-        <div
-          className="shop-container"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          {categories.map((cat, i) => (
-            <a
-              key={cat.label}
-              href={`#${cat.label.toLowerCase().replace(' ', '-')}`}
-              className={`tab-option ${hovered ? 'visible' : ''}`}
-              style={{
-                '--angle': `${cat.angle}deg`,
-                '--delay': `${i * 0.05}s`,
-              } as React.CSSProperties}
-            >
-              {cat.label}
-            </a>
-          ))}
-          <button className="shop-btn">SHOP</button>
-        </div>
-      </main>
+      {/* ── Home ── */}
+      {page === 'home' && (
+        <main className="hero">
+          <div
+            className="shop-container"
+            onMouseEnter={() => setShopHovered(true)}
+            onMouseLeave={() => setShopHovered(false)}
+            onClick={() => setShopHovered(prev => !prev)}
+          >
+            {categories.map((cat, i) => (
+              <a
+                key={cat.label}
+                className={`tab-option ${shopHovered ? 'visible' : ''}`}
+                style={{
+                  '--angle': `${cat.angle}deg`,
+                  '--delay': `${i * 0.05}s`,
+                } as React.CSSProperties}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  const filter = cat.label === 'New Arrivals' ? 'All' : cat.label
+                  navigate('shop', filter)
+                }}
+              >
+                {cat.label}
+              </a>
+            ))}
+            <button className="shop-btn" onClick={() => navigate('shop')}>SHOP</button>
+          </div>
+        </main>
+      )}
 
+      {/* ── Shop ── */}
+      {page === 'shop' && (
+        <main className="page shop-page">
+          <h1 className="page-title">Shop</h1>
+          <div className="filter-bar">
+            {filterCategories.map(cat => (
+              <button
+                key={cat}
+                className={`filter-btn ${activeFilter === cat ? 'active' : ''}`}
+                onClick={() => setActiveFilter(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+          <div className="product-grid">
+            {filteredProducts.map((product, i) => (
+              <div
+                key={product.id}
+                className="product-card"
+                onClick={() => viewProduct(product)}
+                style={{ '--i': i } as React.CSSProperties}
+              >
+                <div className="product-image" style={{ backgroundColor: product.color }}>
+                  <span className="product-image-label">{product.category}</span>
+                </div>
+                <div className="product-info">
+                  <span className="product-name">{product.name}</span>
+                  <span className="product-price">${product.price}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </main>
+      )}
+
+      {/* ── Product Detail ── */}
+      {page === 'product' && selectedProduct && (
+        <main className="page product-detail">
+          <button className="back-btn" onClick={() => navigate('shop')}>
+            &larr; Back to Shop
+          </button>
+          <div className="product-detail-layout">
+            <div className="product-detail-image" style={{ backgroundColor: selectedProduct.color }}>
+              <span className="product-image-label">{selectedProduct.category}</span>
+            </div>
+            <div className="product-detail-info">
+              <h1 className="product-detail-name">{selectedProduct.name}</h1>
+              <p className="product-detail-price">${selectedProduct.price}</p>
+              <p className="product-detail-desc">{selectedProduct.description}</p>
+              <div className="size-selector">
+                <span className="size-label">Size</span>
+                <div className="size-options">
+                  {selectedProduct.sizes.map(size => (
+                    <button
+                      key={size}
+                      className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <button
+                className="add-to-cart-btn"
+                onClick={addToCart}
+                disabled={!selectedSize}
+              >
+                {selectedSize ? 'Add to Cart' : 'Select a Size'}
+              </button>
+            </div>
+          </div>
+        </main>
+      )}
+
+      {/* ── About ── */}
+      {page === 'about' && (
+        <main className="page about-page">
+          <h1 className="page-title">About</h1>
+          <div className="about-content">
+            <p>
+              Method In Madness was born from a simple belief: pants should be more than
+              an afterthought. We obsess over every stitch, every fabric choice, every
+              silhouette — because what you wear from the waist down defines how you move
+              through the world.
+            </p>
+            <p>
+              Founded in 2026, we work with small-batch manufacturers who share our
+              commitment to quality over quantity. Each piece is designed to last, to age
+              beautifully, and to become a part of your story.
+            </p>
+            <p>
+              No trends. No shortcuts. Just pants, done right.
+            </p>
+          </div>
+        </main>
+      )}
+
+      {/* ── Contact ── */}
+      {page === 'contact' && (
+        <main className="page contact-page">
+          <h1 className="page-title">Contact</h1>
+          <div className="contact-content">
+            <p>We'd love to hear from you.</p>
+            <div className="contact-details">
+              <div className="contact-item">
+                <span className="contact-label">Email</span>
+                <span>hello@methodinmadness.com</span>
+              </div>
+              <div className="contact-item">
+                <span className="contact-label">Instagram</span>
+                <span>@methodinmadness</span>
+              </div>
+              <div className="contact-item">
+                <span className="contact-label">Based in</span>
+                <span>Los Angeles, CA</span>
+              </div>
+            </div>
+          </div>
+        </main>
+      )}
+
+      {/* ── Footer ── */}
       <footer className="footer">
-        <span>&copy; 2026 Method In Madness</span>
+        <div className="footer-links">
+          <a onClick={() => navigate('shop')}>Shop</a>
+          <a onClick={() => navigate('about')}>About</a>
+          <a onClick={() => navigate('contact')}>Contact</a>
+        </div>
+        <span className="footer-copy">&copy; 2026 Method In Madness</span>
       </footer>
+
+      {/* ── Cart Sidebar ── */}
+      <div className={`cart-overlay ${cartOpen ? 'visible' : ''}`} onClick={() => setCartOpen(false)} />
+      <aside className={`cart-sidebar ${cartOpen ? 'open' : ''}`}>
+        <div className="cart-header">
+          <h2>Cart</h2>
+          <button className="cart-close" onClick={() => setCartOpen(false)}>&times;</button>
+        </div>
+        {cart.length === 0 ? (
+          <p className="cart-empty">Your cart is empty.</p>
+        ) : (
+          <>
+            <div className="cart-items">
+              {cart.map(item => (
+                <div key={`${item.product.id}-${item.size}`} className="cart-item">
+                  <div className="cart-item-swatch" style={{ backgroundColor: item.product.color }} />
+                  <div className="cart-item-details">
+                    <span className="cart-item-name">{item.product.name}</span>
+                    <span className="cart-item-meta">Size {item.size} &middot; Qty {item.qty}</span>
+                    <span className="cart-item-price">${item.product.price * item.qty}</span>
+                  </div>
+                  <button
+                    className="cart-item-remove"
+                    onClick={() => removeFromCart(item.product.id, item.size)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="cart-footer">
+              <div className="cart-total">
+                <span>Total</span>
+                <span>${cartTotal}</span>
+              </div>
+              <button className="checkout-btn" disabled>Checkout Coming Soon</button>
+            </div>
+          </>
+        )}
+      </aside>
     </div>
   )
 }
