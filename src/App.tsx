@@ -10,6 +10,7 @@ interface Product {
   description: string
   sizes: string[]
   color: string
+  image: string
   imgHeight: 'short' | 'medium' | 'tall'
   nudge: number // vertical offset in px for scattered feel
   width: number // percentage width within column (60-90)
@@ -25,16 +26,16 @@ type Page = 'home' | 'shop' | 'product' | 'about' | 'contact'
 
 /* ── Placeholder Products ── */
 const products: Product[] = [
-  { id: '1', name: 'Classic Straight Leg', price: 128, category: 'Pants', description: 'Clean lines, tailored fit. A wardrobe essential built for everyday wear with premium cotton twill.', sizes: ['S', 'M', 'L', 'XL'], color: '#2c2c2c', imgHeight: 'tall', nudge: 0, width: 82 },
-  { id: '2', name: 'Raw Selvedge Denim', price: 185, category: 'Denim', description: 'Japanese selvedge denim, raw unwashed. Develops unique fading patterns over time.', sizes: ['S', 'M', 'L', 'XL'], color: '#1a2a3a', imgHeight: 'medium', nudge: 40, width: 70 },
-  { id: '3', name: 'Midnight Jogger', price: 95, category: 'Joggers', description: 'Technical fabric meets street style. Tapered fit with ribbed cuffs and hidden zip pockets.', sizes: ['S', 'M', 'L', 'XL'], color: '#1a1a2e', imgHeight: 'short', nudge: 20, width: 75 },
-  { id: '4', name: 'Washed Black Slim', price: 145, category: 'Denim', description: 'Washed black stretch denim with a slim silhouette. Comfortable all-day wear.', sizes: ['S', 'M', 'L', 'XL'], color: '#222222', imgHeight: 'tall', nudge: 60, width: 68 },
-  { id: '5', name: 'Cargo Wide Leg', price: 158, category: 'Pants', description: 'Oversized cargo pockets on a wide-leg canvas pant. Relaxed, utilitarian, bold.', sizes: ['S', 'M', 'L', 'XL'], color: '#3a3a2e', imgHeight: 'medium', nudge: 10, width: 85 },
-  { id: '6', name: 'French Terry Sweatpant', price: 88, category: 'Joggers', description: 'Heavyweight french terry with a relaxed drape. Elevated loungewear.', sizes: ['S', 'M', 'L', 'XL'], color: '#2e2e2e', imgHeight: 'tall', nudge: 50, width: 72 },
-  { id: '7', name: 'Tailored Trouser Short', price: 78, category: 'Shorts', description: '7-inch inseam trouser short in structured cotton. Smart-casual summer essential.', sizes: ['S', 'M', 'L', 'XL'], color: '#3a3028', imgHeight: 'short', nudge: 30, width: 78 },
-  { id: '8', name: 'Indigo Wash Straight', price: 165, category: 'Denim', description: 'Deep indigo wash on 14oz denim. Classic five-pocket construction.', sizes: ['S', 'M', 'L', 'XL'], color: '#182848', imgHeight: 'medium', nudge: 0, width: 65 },
-  { id: '9', name: 'Ripstop Cargo Short', price: 72, category: 'Shorts', description: 'Durable ripstop nylon cargo short. Lightweight, quick-dry, ready for anything.', sizes: ['S', 'M', 'L', 'XL'], color: '#2a3a2a', imgHeight: 'short', nudge: 45, width: 80 },
-  { id: '10', name: 'Pleated Wide Leg', price: 168, category: 'Pants', description: 'Double-pleated wide leg in Japanese cotton. Architectural silhouette.', sizes: ['S', 'M', 'L', 'XL'], color: '#1e1e1e', imgHeight: 'tall', nudge: 15, width: 74 },
+  { id: '1', name: 'Classic Straight Leg', price: 128, category: 'Pants', description: 'Clean lines, tailored fit. A wardrobe essential built for everyday wear with premium cotton twill.', sizes: ['S', 'M', 'L', 'XL'], color: '#2c2c2c', image: '/images/classic-straight-leg.png', imgHeight: 'tall', nudge: 0, width: 82 },
+  { id: '2', name: 'Raw Selvedge Denim', price: 185, category: 'Denim', description: 'Japanese selvedge denim, raw unwashed. Develops unique fading patterns over time.', sizes: ['S', 'M', 'L', 'XL'], color: '#1a2a3a', image: '/images/raw-selvedge-denim.png', imgHeight: 'medium', nudge: 40, width: 70 },
+  { id: '3', name: 'Midnight Jogger', price: 95, category: 'Joggers', description: 'Technical fabric meets street style. Tapered fit with ribbed cuffs and hidden zip pockets.', sizes: ['S', 'M', 'L', 'XL'], color: '#1a1a2e', image: '/images/midnight-jogger.png', imgHeight: 'short', nudge: 20, width: 75 },
+  { id: '4', name: 'Washed Black Slim', price: 145, category: 'Denim', description: 'Washed black stretch denim with a slim silhouette. Comfortable all-day wear.', sizes: ['S', 'M', 'L', 'XL'], color: '#222222', image: '/images/washed-black-slim.png', imgHeight: 'tall', nudge: 60, width: 68 },
+  { id: '5', name: 'Cargo Wide Leg', price: 158, category: 'Pants', description: 'Oversized cargo pockets on a wide-leg canvas pant. Relaxed, utilitarian, bold.', sizes: ['S', 'M', 'L', 'XL'], color: '#3a3a2e', image: '/images/cargo-wide-leg.png', imgHeight: 'medium', nudge: 10, width: 85 },
+  { id: '6', name: 'French Terry Sweatpant', price: 88, category: 'Joggers', description: 'Heavyweight french terry with a relaxed drape. Elevated loungewear.', sizes: ['S', 'M', 'L', 'XL'], color: '#2e2e2e', image: '/images/french-terry-sweatpant.png', imgHeight: 'tall', nudge: 50, width: 72 },
+  { id: '7', name: 'Tailored Trouser Short', price: 78, category: 'Shorts', description: '7-inch inseam trouser short in structured cotton. Smart-casual summer essential.', sizes: ['S', 'M', 'L', 'XL'], color: '#3a3028', image: '/images/tailored-trouser-short.png', imgHeight: 'short', nudge: 30, width: 78 },
+  { id: '8', name: 'Indigo Wash Straight', price: 165, category: 'Denim', description: 'Deep indigo wash on 14oz denim. Classic five-pocket construction.', sizes: ['S', 'M', 'L', 'XL'], color: '#182848', image: '/images/indigo-wash-straight.png', imgHeight: 'medium', nudge: 0, width: 65 },
+  { id: '9', name: 'Ripstop Cargo Short', price: 72, category: 'Shorts', description: 'Durable ripstop nylon cargo short. Lightweight, quick-dry, ready for anything.', sizes: ['S', 'M', 'L', 'XL'], color: '#2a3a2a', image: '/images/ripstop-cargo-short.png', imgHeight: 'short', nudge: 45, width: 80 },
+  { id: '10', name: 'Pleated Wide Leg', price: 168, category: 'Pants', description: 'Double-pleated wide leg in Japanese cotton. Architectural silhouette.', sizes: ['S', 'M', 'L', 'XL'], color: '#1e1e1e', image: '/images/pleated-wide-leg.png', imgHeight: 'tall', nudge: 15, width: 74 },
 ]
 
 const categories = [
@@ -189,7 +190,8 @@ function App() {
                   '--card-width': `${product.width}%`,
                 } as React.CSSProperties}
               >
-                <div className={`product-image img-${product.imgHeight}`} style={{ backgroundColor: product.color }}>
+                <div className={`product-image img-${product.imgHeight}`}>
+                  <img src={product.image} alt={product.name} className="product-img" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).parentElement!.style.backgroundColor = product.color }} />
                   <span className="product-image-label">{product.category}</span>
                 </div>
                 <div className="product-info">
@@ -209,8 +211,8 @@ function App() {
             &larr; Back to Shop
           </button>
           <div className="product-detail-layout">
-            <div className="product-detail-image" style={{ backgroundColor: selectedProduct.color }}>
-              <span className="product-image-label">{selectedProduct.category}</span>
+            <div className="product-detail-image">
+              <img src={selectedProduct.image} alt={selectedProduct.name} className="product-img detail-img" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).parentElement!.style.backgroundColor = selectedProduct.color }} />
             </div>
             <div className="product-detail-info">
               <h1 className="product-detail-name">{selectedProduct.name}</h1>
