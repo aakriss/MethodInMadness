@@ -136,6 +136,7 @@ function App() {
             muted
             playsInline
             src="/images/A38DE232-1A05-4750-A74C-146338B38ADC.MP4"
+            onLoadedMetadata={(e) => { e.currentTarget.playbackRate = 0.5 }}
             onTimeUpdate={(e) => {
               const v = e.currentTarget
               if (v.duration && v.currentTime >= v.duration - 2) {
