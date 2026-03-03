@@ -133,10 +133,15 @@ function App() {
           <video
             className="hero-video"
             autoPlay
-            loop
             muted
             playsInline
             src="/images/A38DE232-1A05-4750-A74C-146338B38ADC.MP4"
+            onTimeUpdate={(e) => {
+              const v = e.currentTarget
+              if (v.duration && v.currentTime >= v.duration - 2) {
+                v.currentTime = 0
+              }
+            }}
           />
           <div className="hero-overlay" />
           <div
