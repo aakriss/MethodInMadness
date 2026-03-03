@@ -130,6 +130,15 @@ function App() {
       {/* ── Home ── */}
       {page === 'home' && (
         <main className="hero">
+          <video
+            className="hero-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            src="/images/A38DE232-1A05-4750-A74C-146338B38ADC.MP4"
+          />
+          <div className="hero-overlay" />
           <div
             className="shop-container"
             onMouseEnter={() => setShopHovered(true)}
