@@ -164,7 +164,7 @@
   transform: scale(1.08);
 }
 
-/* Tab Options */
+/* Tab Options (product images) */
 .tab-option {
   position: absolute;
   top: 50%;
@@ -172,37 +172,50 @@
   transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0px) rotate(calc(var(--angle) * -1));
   opacity: 0;
   pointer-events: none;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #fff;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0.7rem 1.6rem;
-  white-space: nowrap;
+  width: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   cursor: pointer;
   transition:
     opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-    background 0.3s ease,
-    border-color 0.3s ease;
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition-delay: var(--delay);
-  text-decoration: none;
 }
 
 .tab-option.visible {
   opacity: 1;
   pointer-events: auto;
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-160px) rotate(calc(var(--angle) * -1));
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-200px) rotate(calc(var(--angle) * -1));
 }
 
 .tab-option:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-168px) rotate(calc(var(--angle) * -1)) scale(1.08);
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-210px) rotate(calc(var(--angle) * -1)) scale(1.1);
+}
+
+.tab-product-img {
+  width: 80px;
+  height: 100px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+  transition: filter 0.3s ease;
+}
+
+.tab-option:hover .tab-product-img {
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.6));
+}
+
+.tab-product-name {
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
 }
 
 /* ── Pages (shared) ── */
@@ -779,12 +792,26 @@
     height: 300px;
   }
 
+  .tab-option {
+    width: 80px;
+  }
+
   .tab-option.visible {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-120px) rotate(calc(var(--angle) * -1));
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-150px) rotate(calc(var(--angle) * -1));
   }
 
   .tab-option:hover {
-    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-126px) rotate(calc(var(--angle) * -1)) scale(1.08);
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-158px) rotate(calc(var(--angle) * -1)) scale(1.08);
+  }
+
+  .tab-product-img {
+    width: 60px;
+    height: 80px;
+  }
+
+  .tab-product-name {
+    font-size: 0.5rem;
+    max-width: 80px;
   }
 
   .shop-logo {

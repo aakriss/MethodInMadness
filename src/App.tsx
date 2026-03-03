@@ -38,13 +38,8 @@ const products: Product[] = [
   { id: '10', name: 'Pleated Wide Leg', price: 168, category: 'Pants', description: 'Double-pleated wide leg in Japanese cotton. Architectural silhouette.', sizes: ['S', 'M', 'L', 'XL'], color: '#1e1e1e', image: '/images/pleated-wide-leg.png', imgHeight: 'tall', nudge: 15, width: 74 },
 ]
 
-const categories = [
-  { label: 'Pants', angle: -120 },
-  { label: 'Denim', angle: -60 },
-  { label: 'Joggers', angle: 0 },
-  { label: 'Shorts', angle: 60 },
-  { label: 'New Arrivals', angle: 120 },
-]
+const featuredIds = ['1', '2', '5', '7', '8']
+const featuredAngles = [-120, -60, 0, 60, 120]
 
 const filterCategories = ['All', 'Pants', 'Denim', 'Joggers', 'Shorts']
 
@@ -141,23 +136,26 @@ function App() {
             onMouseLeave={() => setShopHovered(false)}
             onClick={() => setShopHovered(prev => !prev)}
           >
-            {categories.map((cat, i) => (
-              <a
-                key={cat.label}
-                className={`tab-option ${shopHovered ? 'visible' : ''}`}
-                style={{
-                  '--angle': `${cat.angle}deg`,
-                  '--delay': `${i * 0.05}s`,
-                } as React.CSSProperties}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  const filter = cat.label === 'New Arrivals' ? 'All' : cat.label
-                  navigate('shop', filter)
-                }}
-              >
-                {cat.label}
-              </a>
-            ))}
+            {featuredIds.map((id, i) => {
+              const p = products.find(prod => prod.id === id)!
+              return (
+                <div
+                  key={id}
+                  className={`tab-option ${shopHovered ? 'visible' : ''}`}
+                  style={{
+                    '--angle': `${featuredAngles[i]}deg`,
+                    '--delay': `${i * 0.06}s`,
+                  } as React.CSSProperties}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    viewProduct(p)
+                  }}
+                >
+                  <img src={p.image} alt={p.name} className="tab-product-img" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; (e.target as HTMLImageElement).parentElement!.style.backgroundColor = p.color }} />
+                  <span className="tab-product-name">{p.name}</span>
+                </div>
+              )
+            })}
             <button className="shop-btn" onClick={() => navigate('shop')}>
               <img src="/images/mim2.png" alt="Shop" className="shop-logo" />
             </button>
