@@ -287,6 +287,16 @@
   padding: 1rem;
   position: relative;
   overflow: hidden;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.product-card:hover .product-image {
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .product-image.img-short {
@@ -356,6 +366,9 @@
   display: flex;
   align-items: flex-end;
   padding: 1.5rem;
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .product-detail-info {
