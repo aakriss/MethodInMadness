@@ -106,7 +106,7 @@ function App() {
       {/* ── Header ── */}
       <header className="header">
         <div className="brand" onClick={() => navigate('home')} role="button" tabIndex={0}>
-          METHOD IN MADNESS
+          <img src="/images/mim2.png" alt="Method In Madness" className="brand-logo" />
         </div>
 
         <button
@@ -158,7 +158,9 @@ function App() {
                 {cat.label}
               </a>
             ))}
-            <button className="shop-btn" onClick={() => navigate('shop')}>SHOP</button>
+            <button className="shop-btn" onClick={() => navigate('shop')}>
+              <img src="/images/mim1.png" alt="Shop" className="shop-logo" />
+            </button>
           </div>
         </main>
       )}
