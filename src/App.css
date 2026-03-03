@@ -170,17 +170,17 @@
 }
 
 .shop-logo {
-  width: 840px;
-  height: 840px;
+  width: 500px;
+  height: 500px;
   object-fit: contain;
   filter: invert(1);
   opacity: 0.7;
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .shop-container:hover .shop-logo {
   opacity: 1;
-  transform: scale(0.85);
+  transform: scale(0.45);
 }
 
 /* Tab Options (product images) */
@@ -834,8 +834,8 @@
   }
 
   .shop-logo {
-    width: 600px;
-    height: 600px;
+    width: 350px;
+    height: 350px;
   }
 
   .brand-logo {
