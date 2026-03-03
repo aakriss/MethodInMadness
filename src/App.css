@@ -1,1 +1,185 @@
-/* App styles */
+/* Layout */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+.brand {
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav a {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.nav a:hover {
+  opacity: 1;
+}
+
+.cart-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.cart-btn:hover {
+  opacity: 1;
+}
+
+/* Hero */
+.hero {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.shop-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 400px;
+  height: 400px;
+}
+
+/* Shop Button */
+.shop-btn {
+  position: relative;
+  z-index: 10;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.35em;
+  padding: 1.1rem 3rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.shop-container:hover .shop-btn {
+  background: #fff;
+  color: #0a0a0a;
+  border-color: #fff;
+  transform: scale(1.05);
+}
+
+/* Tab Options */
+.tab-option {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(0px) rotate(calc(var(--angle) * -1));
+  opacity: 0;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.6rem;
+  white-space: nowrap;
+  transition:
+    opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    background 0.3s ease,
+    border-color 0.3s ease;
+  transition-delay: var(--delay);
+  text-decoration: none;
+}
+
+.tab-option.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-160px) rotate(calc(var(--angle) * -1));
+}
+
+.tab-option:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-168px) rotate(calc(var(--angle) * -1)) scale(1.08);
+}
+
+/* Footer */
+.footer {
+  padding: 1.5rem 3rem;
+  text-align: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  opacity: 0.4;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .header {
+    padding: 1rem 1.5rem;
+  }
+
+  .nav {
+    gap: 1.2rem;
+  }
+
+  .shop-container {
+    width: 300px;
+    height: 300px;
+  }
+
+  .tab-option.visible {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-120px) rotate(calc(var(--angle) * -1));
+  }
+
+  .tab-option:hover {
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateY(-126px) rotate(calc(var(--angle) * -1)) scale(1.08);
+  }
+
+  .shop-btn {
+    font-size: 0.85rem;
+    padding: 0.9rem 2.2rem;
+  }
+
+  .footer {
+    padding: 1rem 1.5rem;
+  }
+}
