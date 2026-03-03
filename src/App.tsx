@@ -106,7 +106,7 @@ function App() {
       {/* ── Header ── */}
       <header className="header">
         <div className="brand" onClick={() => navigate('home')} role="button" tabIndex={0}>
-          <img src="/images/mim2.png" alt="Method In Madness" className="brand-logo" />
+          <img src="/images/mim1.png" alt="Method In Madness" className="brand-logo" />
         </div>
 
         <button
